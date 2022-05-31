@@ -8,6 +8,11 @@ variable "HOSTNAME" {
     description = "VSI Hostname"
 }
 
+variable "RESOURCE_GROUP" {
+    type = string
+    description = "Resource Group"
+}
+
 variable "VOL_PROFILE" {
 	type		= string
 	description = "Volume Profile"

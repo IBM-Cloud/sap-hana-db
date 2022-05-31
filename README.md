@@ -27,11 +27,12 @@ Edit your VPC, Subnet, Security group, Hostname, Profile, Image, SSH Keys and st
 REGION			= "eu-de"
 ZONE			= "eu-de-2"
 VPC				= "ic4sap"
-SECURITYGROUP	= "ic4sap-securitygroup"
+SECURITY_GROUP	= "ic4sap-securitygroup"
+RESOURCE_GROUP  = "wes-automation" # EXISTING Resource Group for VSI and volumes
 SUBNET			= "ic4sap-subnet"
 HOSTNAME		= "saphanahost"
 PROFILE			= "mx2-16x128"
-IMAGE			= "ibm-redhat-7-6-amd64-sap-hana-1"
+IMAGE			= "ibm-redhat-7-6-amd64-sap-hana-3"
 SSH_KEYS		= [ "r010-57bfc315-f9e5-46bf-bf61-d87a24a9ce7a" , "r010-3fcd9fe7-d4a7-41ce-8bb3-d96e936b2c7e" ]
 VOL1			= "500"
 VOL2			= "500"
@@ -43,7 +44,8 @@ Parameter | Description
 REGION | The cloud region where to deploy the solution. The regions and zones for VPC are listed [here](https://cloud.ibm.com/docs/containers?topic=containers-regions-and-zones#zones-vpc)
 ZONE | The cloud zone where to deploy the solution
 VPC | The name of the VPC. The list of VPCs is available [here](https://cloud.ibm.com/vpc-ext/network/vpcs)
-SECURITYGROUP | The name of the Security Group. The list of Security Groups is available [here](https://cloud.ibm.com/vpc-ext/network/securityGroups)
+SECURITY_GROUP | The name of the Security Group. The list of Security Groups is available [here](https://cloud.ibm.com/vpc-ext/network/securityGroups)
+RESOURCE_GROUP | EXISTING Resource Group name. The list of Resource Groups is available [here](https://cloud.ibm.com/account/resource-groups).
 SUBNET | The name of the Subnet. The list of Subnets is available [here](https://cloud.ibm.com/vpc-ext/network/subnets)
 HOSTNAME | The Hostname for the VSI. The hostname must have up to 13 characters as required by SAP. For more information on rules regarding hostnames for SAP systems, check SAP Note [611361 - Hostnames of SAP ABAP Platform servers](https://launchpad.support.sap.com/#/notes/%20611361)
 PROFILE | The profile used for the VSI. A list of profiles is available [here](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles)
@@ -121,7 +123,7 @@ terraform init
 For planning phase:
 
 ```shell
-terraform plan
+terraform plan --out plan1
 ```
 
 For apply phase:

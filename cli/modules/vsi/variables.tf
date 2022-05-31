@@ -13,9 +13,14 @@ variable "SUBNET" {
     description = "Subnet name"
 }
 
-variable "SECURITYGROUP" {
+variable "SECURITY_GROUP" {
     type = string
     description = "Security group name"
+}
+
+variable "RESOURCE_GROUP" {
+    type = string
+    description = "Resource Group"
 }
 
 variable "HOSTNAME" {

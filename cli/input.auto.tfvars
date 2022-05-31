@@ -2,11 +2,9 @@
 REGION			= "eu-de"
 ZONE			= "eu-de-2"
 VPC				= "ic4sap"                        # EXISTING VPC name
-SECURITYGROUP	= "ic4sap-securitygroup"      # EXISTING Security group name
+SECURITY_GROUP	= "ic4sap-securitygroup"      # EXISTING Security group name
+RESOURCE_GROUP  = "wes-automation"            # EXISTING Resource group name
 SUBNET			= "ic4sap-subnet"               # EXISTING Subnet name
-ADD_OPEN_PORTS = "no"                       # To create new open port/s on the EXISTING SECURITYGROUP, choose 'yes' or 'no' as options
-OPEN_PORT_MINIMUM = "3200"                  # This variables will be created only if ADD_OPEN_PORTS = "yes"
-OPEN_PORT_MAXIMUM = "3200"                  # This variables will be created only if ADD_OPEN_PORTS = "yes"
 HOSTNAME		= "saphadbm"
 PROFILE			= "mx2-16x128"
 IMAGE			= "ibm-redhat-7-6-amd64-sap-hana-3"
