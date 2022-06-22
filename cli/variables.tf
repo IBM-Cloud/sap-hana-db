@@ -108,10 +108,10 @@ variable "hana_sysno" {
 	description = "hana_sysno"
 }
 
-variable "hana_master_password" {
+variable "hana_main_password" {
 	type		= string
 	sensitive = true
-	description = "hana_master_password"
+	description = "hana_main_password"
 }
 
 variable "hana_system_usage" {

@@ -37,5 +37,5 @@ module "ansible-exec" {
   source		= "./modules/ansible-exec"
   depends_on	= [ module.vsi ]
   IP			= module.vsi.PRIVATE-IP
-  hana_master_password = var.hana_master_password
+  hana_main_password = var.hana_main_password
 }

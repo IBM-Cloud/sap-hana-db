@@ -3,7 +3,7 @@ variable "IP" {
     description = "IP used to execute ansible"
 }
 
-variable "hana_master_password" {
+variable "hana_main_password" {
     type = string
-    description = "hana_master_password"
+    description = "hana_main_password"
 }
