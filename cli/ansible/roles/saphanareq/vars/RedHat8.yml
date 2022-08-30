@@ -30,13 +30,19 @@ saphana_required_packages:
   - xorg-x11-xauth
   - compat-sap-c++-9
   - libatomic
-  - chrony 
+  - chrony
+  - lvm2
+  - unzip
 
 saphana_required_configurations:
-  - "hostname"
-  - "kernel_RedHat8"
-  - "update_os"
+  - "repository_RedHat"
+  - "update_RedHat8"
   - "reqpkg"
+  - "hostname_fix_RedHat"
+  - "hostname"
+  - "umask_RHEL"
+  - "kernel_RedHat8"
+  - "reboot"
   - "filesystems"
   - "tuned"
   - "SELinux"
@@ -46,4 +52,5 @@ saphana_required_configurations:
   - "kdump"
   - "limits"
   - "tmpfiles"
-... 
+  - "reboot"
+...

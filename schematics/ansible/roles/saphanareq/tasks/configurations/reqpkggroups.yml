@@ -1,6 +1,0 @@
----
-- name: Import required package groups
-  dnf:
-    state: present
-    name: "{{ saphana_required_package_groups }}" 
-...

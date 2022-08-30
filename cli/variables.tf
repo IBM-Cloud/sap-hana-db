@@ -62,13 +62,17 @@ variable "HOSTNAME" {
 variable "PROFILE" {
 	type		= string
 	description = "VSI Profile"
-	default		= "bx2-4x16"
+	default		= "mx2-16x128"
 }
 
 variable "IMAGE" {
 	type		= string
-	description = "VSI OS Image"
-	default		= "ibm-redhat-7-6-amd64-sap-hana-3"
+	description = "DB VSI OS Image"
+	default		= "ibm-redhat-8-4-amd64-sap-hana-2"
+	validation {
+		condition     = length(regexall("^(ibm-redhat-7-6-amd64-sap-hana|ibm-redhat-8-4-amd64-sap-hana|ibm-sles-15-3-amd64-sap-hana)-[0-9][0-9]*", var.IMAGE)) > 0
+		error_message = "The OS SAP DB-IMAGE must be one of  \"ibm-sles-15-3-amd64-sap-hana-x\", \"ibm-redhat-8-4-amd64-sap-hana-x\" or \"ibm-redhat-7-6-amd64-sap-hana-x\"."
+ 	}
 }
 
 variable "SSH_KEYS" {
@@ -83,19 +87,19 @@ variable "SSH_KEYS" {
 variable "VOL1" {
 	type		= string
 	description = "Volume 1 Size"
-	default		= "10"
+	default		= "500"
 }
 
 variable "VOL2" {
 	type		= string
 	description = "Volume 2 Size"
-	default		= "10"
+	default		= "500"
 }
 
 variable "VOL3" {
 	type		= string
 	description = "Volume 3 Size"
-	default		= "10"
+	default		= "500"
 }
 
 variable "hana_sid" {

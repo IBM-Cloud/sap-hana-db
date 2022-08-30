@@ -22,7 +22,7 @@ variable "VOL_PROFILE" {
 variable "VOL_IOPS" {
 	type		= string
 	description = "Volume IOPS"
-	default		= "2000"
+	default		= "10000"
 }
 
 variable "VOL1" {

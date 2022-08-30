@@ -85,8 +85,12 @@ variable "PROFILE" {
 
 variable "IMAGE" {
 	type		= string
-	description = "VSI OS Image"
-	default		= "ibm-redhat-7-6-amd64-sap-hana-3"
+	description = "DB VSI OS Image"
+	default		= "ibm-redhat-8-4-amd64-sap-hana-2"
+	validation {
+		condition     = length(regexall("^(ibm-redhat-7-6-amd64-sap-hana|ibm-redhat-8-4-amd64-sap-hana|ibm-sles-15-3-amd64-sap-hana)-[0-9][0-9]*", var.IMAGE)) > 0
+		error_message = "The OS SAP DB-IMAGE must be one of  \"ibm-sles-15-3-amd64-sap-hana-x\", \"ibm-redhat-8-4-amd64-sap-hana-x\" or \"ibm-redhat-7-6-amd64-sap-hana-x\"."
+ 	}
 }
 
 variable "hana_sid" {
@@ -141,5 +145,5 @@ variable "hana_components" {
 variable "kit_saphana_file" {
 	type		= string
 	description = "kit_saphana_file"
-	default		= "/storage/HANADB/51054623.ZIP"
+	default		= "/storage/HANADB/51055299.ZIP"
 }
