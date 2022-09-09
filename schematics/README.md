@@ -42,7 +42,7 @@ SUBNET | The name of an EXISTING Subnet. The list of Subnets is available [here]
 SECURITY_GROUP | The name of an EXISTING Security group. The list of Security Groups is available [here](https://cloud.ibm.com/vpc-ext/network/securityGroups).
 HOSTNAME | The Hostname for the HANA VSI. The hostname should be up to 13 characters as required by SAP. For more information on rules regarding hostnames for SAP systems, check [SAP Note 611361: Hostnames of SAP ABAP Platform servers](https://launchpad.support.sap.com/#/notes/%20611361)
 PROFILE |  The instance profile used for the HANA VSI. A list of profiles is available [here](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles) <br>  For more information about supported DB/OS and IBM Gen 2 Virtual Server Instances (VSI), check [SAP Note 2927211: SAP Applications on IBM Virtual Private Cloud](https://launchpad.support.sap.com/#/notes/2927211) <br /> Default value: "mx2-16x128"
-IMAGE | The OS image used for HANA VSI. A list of images is available [here](https://cloud.ibm.com/docs/vpc?topic=vpc-about-images).<br /> Default value: ibm-redhat-7-6-amd64-sap-hana-3
+IMAGE | The OS image used for HANA VSI. A list of images is available [here](https://cloud.ibm.com/docs/vpc?topic=vpc-about-images).<br /> Default value: ibm-redhat-8-4-amd64-sap-hana-2
 
 **SAP input parameters:**
 
@@ -56,9 +56,25 @@ hana_components | SAP HANA Components | Default: server<br> Valid values: all, c
 kit_saphana_file | Path to SAP HANA ZIP file | As downloaded from SAP Support Portal.
 
 **Obs***: <br />
-- Sensitive - The variable value is not displayed in your Schematics logs and it is hidden in the input field.<br />
+ - **SAP Main Password.**
+The password for the SAP system will be hidden during the schematics apply step and will not be available after the deployment.
+
+Parameter | Description | Requirements
+----------|-------------|-------------
+sap_main_password | Common password for all users that are created during the installation | <ul><li>It must be 8 to 14 characters long</li><li>It must contain at least one digit (0-9)</li><li>It must not contain \ (backslash) and " (double quote)</li></ul>
+
+- **Sensitive** - The variable value is not displayed in your Schematics logs and it is hidden in the input field.<br />
 - The following parameters should have the same values as the ones set for the BASTION server: REGION, ZONE, VPC, SUBNET, SECURITYGROUP.
 - For any manual change in the terraform code, you have to make sure that you use a certified image based on the SAP NOTE: 2927211.
+- OS **image** for **DB VSI.** Supported OS images for DB VSIs: ibm-sles-15-3-amd64-sap-hana-2, ibm-redhat-8-4-amd64-sap-hana-2, ibm-redhat-7-6-amd64-sap-hana-3.
+  - The list of available VPC Operating Systems supported by SAP: SAP note '2927211 - SAP Applications on IBM Virtual Private Cloud (VPC) Infrastructure environment' https://launchpad.support.sap.com/#/notes/2927211; The list of all available OS images: https://cloud.ibm.com/docs/vpc?topic=vpc-about-images
+  - Default variable:  DB-IMAGE = "ibm-redhat-8-4-amd64-sap-hana-2"
+- SAP **HANA Installation path kit**
+  - Supported SAP HANA versions on Red Hat 8.4 and Suse 15.3: HANA 2.0 SP 5 Rev 57, kit file: 51055299.ZIP
+  - Supported SAP HANA versions on Red Hat 7.6: HANA 2.0 SP 5 Rev 52, kit file: 51054623.ZIP
+  - Example for Red Hat 7: kit_saphana_file = "/storage/HANADB/51054623.ZIP"
+  - Example for Red Hat 8 or Suse 15: kit_saphana_file = "/storage/HANADB/51055299.ZIP"
+  - Default variable:  kit_saphana_file = "/storage/HANADB/51055299.ZIP"
 
 ## VPC Configuration
 
