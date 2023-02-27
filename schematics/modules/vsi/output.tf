@@ -9,3 +9,7 @@ output "PRIVATE-IP" {
 output "VPC" {
   value		= var.VPC
 }
+
+output "STORAGE-LAYOUT" {
+  value = local.DISPLAY_CRT_STORAGE
+}

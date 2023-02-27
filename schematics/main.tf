@@ -20,19 +20,8 @@ module "vpc-subnet" {
   SUBNET		= var.SUBNET
 }
 
-module "volumes" {
-  source		= "./modules/volumes"
-  depends_on	= [ module.precheck-ssh-exec ]
-  ZONE			= var.ZONE
-  HOSTNAME		= var.HOSTNAME
-  RESOURCE_GROUP = var.RESOURCE_GROUP
-  VOL_PROFILE	= "custom"
-  VOL_IOPS		= "10000"
-}
-
 module "vsi" {
   source		= "./modules/vsi"
-  depends_on	= [ module.volumes ]
   ZONE			= var.ZONE
   VPC			= var.VPC
   SECURITY_GROUP = var.SECURITY_GROUP
@@ -42,14 +31,13 @@ module "vsi" {
   PROFILE		= var.PROFILE
   IMAGE			= var.IMAGE
   SSH_KEYS		= var.SSH_KEYS
-  VOLUMES_LIST	= module.volumes.volumes_list
 }
 
 module "ansible-exec" {
   source		= "./modules/ansible-exec"
-  depends_on	= [ module.vsi , local_file.db_ansible_saphana-vars ]
+  depends_on	= [ module.vsi, local_file.ansible_saphana-vars, local_file.tf_ansible_hana_storage_generated_file]
   IP			= module.vsi.PRIVATE-IP
-  PLAYBOOK = "saphanasinglehost.yml"
+  PLAYBOOK = "saphana.yml"
   BASTION_FLOATING_IP = var.BASTION_FLOATING_IP
   private_ssh_key = var.private_ssh_key
 }

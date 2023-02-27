@@ -39,7 +39,8 @@ HOSTNAME = "saphanadb1"
 # Example: HOSTNAME = "ic4sap"
 
 PROFILE = "mx2-16x128"
-# The DB VSI profile. Supported profiles for DB VSI: mx2-16x128. The list of available profiles: https://cloud.ibm.com/docs/vpc?topic=vpc-profiles&interface=ui
+# The DB VSI profile. The list of certified profiles for HANA VSIs: https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-intel-vs-vpc . 
+# Details about all x86 instance profiles: https://cloud.ibm.com/docs/vpc?topic=vpc-profiles&interface=ui
 
 IMAGE = "ibm-redhat-8-4-amd64-sap-hana-2"
 # OS image for DB VSI. Supported OS images for DB VSIs: ibm-sles-15-3-amd64-sap-hana-2, ibm-redhat-8-4-amd64-sap-hana-2, ibm-redhat-7-6-amd64-sap-hana-3.

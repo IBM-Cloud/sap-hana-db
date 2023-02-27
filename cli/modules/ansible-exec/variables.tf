@@ -3,7 +3,7 @@ variable "IP" {
     description = "IP used to execute ansible"
 }
 
-variable "hana_main_password" {
+variable "PLAYBOOK_PATH" {
     type = string
-    description = "hana_main_password"
+    description = "Path to the Ansible Playbook"
 }

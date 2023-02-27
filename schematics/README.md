@@ -17,7 +17,18 @@ SAP HANA installation media used for this deployment is the default one for **SA
 The VSI is deployed with with one of the following Operating Systems for DB server: Suse Linux Enterprise Server 15 SP 3 for SAP HANA (amd64), Red Hat Enterprise Linux 8.4 for SAP HANA (amd64) or Red Hat Enterprise Linux 7.6 for SAP HANA (amd64). The SSH keys are configured to allow root user access. The following storage volumes are creating during the provisioning:
 
 HANA DB VSI Disks:
-- 3 x 500 GB disks with 10000 IOPS - DATA.
+- the disk sizes depend on the selected profile, according to [Intel Virtual Server certified profiles on VPC infrastructure for SAP HANA](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-intel-vs-vpc) - Last updated 2022-01-28
+
+Note: LVM will be used for **`/hana/data`**, **`hana/log`**, **`/hana/shared`** and **`/usr/sap`**, for all storage profiles, excepting **`vx2d-44x616`** and **`vx2d-88x1232`** profiles, where **`/hana/data`** and **`/hana/shared`** won't be manged by LVM, according to [Intel Virtual Server certified profiles on VPC infrastructure for SAP HANA](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-intel-vs-vpc#vx2d-16x224) - Last updated 2022-01-28 and to [Storage design considerations](https://cloud.ibm.com/docs/sap?topic=sap-storage-design-considerations#hana-iaas-mx2-16x128-32x256-configure) - Last updated 2022-05-19
+
+For example, in case of deploying a HANA VM, using the default value for VSI profile `mx2-16x128`, the automation will execute the following storage setup:  
+- 3 volumes x 500 GB each for `<sid>_hana_vg` volume group
+  - the volume group will contain the following logical volumes (created with three stripes):
+    - `<sid>_hana_data_lv` - size 988 GB
+    - `<sid>_hana_log_lv` - size 256 GB
+    - `<sid>_hana_shared` - size 256 GB
+- 1 volume x 50 GB for `/usr/sap` (volume group: `<sid>_usr_sap_vg`, logical volume: `<sid>_usr_sap_lv`)
+- 1 volume x 10 GB for a 2 GB SWAP logical volume (volume group: `<sid>_swap_vg`, logical volume: `<sid>_swap_lv`)
 
 ## IBM Cloud API Key
 The IBM Cloud API Key should be provided as input value of type sensitive for "ibmcloud_api_key" variable, in `IBM Schematics -> Workspaces -> <Workspace name> -> Settings` menu.
@@ -41,8 +52,8 @@ VPC | The name of an EXISTING VPC. The list of VPCs is available [here](https://
 SUBNET | The name of an EXISTING Subnet. The list of Subnets is available [here](https://cloud.ibm.com/vpc-ext/network/subnets).
 SECURITY_GROUP | The name of an EXISTING Security group. The list of Security Groups is available [here](https://cloud.ibm.com/vpc-ext/network/securityGroups).
 HOSTNAME | The Hostname for the HANA VSI. The hostname should be up to 13 characters as required by SAP. For more information on rules regarding hostnames for SAP systems, check [SAP Note 611361: Hostnames of SAP ABAP Platform servers](https://launchpad.support.sap.com/#/notes/%20611361)
-PROFILE |  The instance profile used for the HANA VSI. A list of profiles is available [here](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles) <br>  For more information about supported DB/OS and IBM Gen 2 Virtual Server Instances (VSI), check [SAP Note 2927211: SAP Applications on IBM Virtual Private Cloud](https://launchpad.support.sap.com/#/notes/2927211) <br /> Default value: "mx2-16x128"
-IMAGE | The OS image used for HANA VSI. A list of images is available [here](https://cloud.ibm.com/docs/vpc?topic=vpc-about-images).<br /> Default value: ibm-redhat-8-4-amd64-sap-hana-2
+PROFILE | The instance profile used for the HANA VSI. The list of certified profiles for HANA VSIs is available [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-intel-vs-vpc). <br> Details about all x86 instance profiles are available [here](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles). <br>  For more information about supported DB/OS and IBM Gen 2 Virtual Server Instances (VSI), check [SAP Note 2927211: SAP Applications on IBM Virtual Private Cloud](https://launchpad.support.sap.com/#/notes/2927211) <br /> Default value: "mx2-16x128"
+IMAGE | The OS image used for HANA VSI. A list of images is available [here](https://cloud.ibm.com/docs/vpc?topic=vpc-about-images) <br> Default value: ibm-redhat-8-4-amd64-sap-hana-2
 
 **SAP input parameters:**
 
@@ -68,13 +79,14 @@ sap_main_password | Common password for all users that are created during the in
 - For any manual change in the terraform code, you have to make sure that you use a certified image based on the SAP NOTE: 2927211.
 - OS **image** for **DB VSI.** Supported OS images for DB VSIs: ibm-sles-15-3-amd64-sap-hana-2, ibm-redhat-8-4-amd64-sap-hana-2, ibm-redhat-7-6-amd64-sap-hana-3.
   - The list of available VPC Operating Systems supported by SAP: SAP note '2927211 - SAP Applications on IBM Virtual Private Cloud (VPC) Infrastructure environment' https://launchpad.support.sap.com/#/notes/2927211; The list of all available OS images: https://cloud.ibm.com/docs/vpc?topic=vpc-about-images
-  - Default variable:  DB-IMAGE = "ibm-redhat-8-4-amd64-sap-hana-2"
+  - Make sure the OS image is appropriate for the selected [VSI profil](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-intel-vs-vpc#hana-iaas-intel-vs-vpc-) and SAP HANA Processing Type
+  - Default value:  IMAGE = "ibm-redhat-8-4-amd64-sap-hana-2"
 - SAP **HANA Installation path kit**
   - Supported SAP HANA versions on Red Hat 8.4 and Suse 15.3: HANA 2.0 SP 5 Rev 57, kit file: 51055299.ZIP
   - Supported SAP HANA versions on Red Hat 7.6: HANA 2.0 SP 5 Rev 52, kit file: 51054623.ZIP
   - Example for Red Hat 7: kit_saphana_file = "/storage/HANADB/51054623.ZIP"
   - Example for Red Hat 8 or Suse 15: kit_saphana_file = "/storage/HANADB/51055299.ZIP"
-  - Default variable:  kit_saphana_file = "/storage/HANADB/51055299.ZIP"
+  - Default value:  kit_saphana_file = "/storage/HANADB/51055299.ZIP"
 
 ## VPC Configuration
 
