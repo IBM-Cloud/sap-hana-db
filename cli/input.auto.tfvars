@@ -42,10 +42,10 @@ PROFILE = "mx2-16x128"
 # The DB VSI profile. The list of certified profiles for HANA VSIs: https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-intel-vs-vpc . 
 # Details about all x86 instance profiles: https://cloud.ibm.com/docs/vpc?topic=vpc-profiles&interface=ui
 
-IMAGE = "ibm-redhat-8-4-amd64-sap-hana-2"
-# OS image for DB VSI. Supported OS images for DB VSIs: ibm-sles-15-3-amd64-sap-hana-2, ibm-redhat-8-4-amd64-sap-hana-2, ibm-redhat-7-6-amd64-sap-hana-3.
+IMAGE = "ibm-redhat-8-6-amd64-sap-hana-2"
+# OS image for DB VSI. Supported OS images for DB VSIs: ibm-sles-15-4-amd64-sap-hana-3, ibm-redhat-8-6-amd64-sap-hana-2, .
 # The list of available VPC Operating Systems supported by SAP: SAP note '2927211 - SAP Applications on IBM Virtual Private Cloud (VPC) Infrastructure environment' https://launchpad.support.sap.com/#/notes/2927211; The list of all available OS images: https://cloud.ibm.com/docs/vpc?topic=vpc-about-images
-# Example: IMAGE = "ibm-redhat-7-6-amd64-sap-applications-2" 
+# Example: IMAGE = "ibm-redhat-8-6-amd64-sap-hana-2"
 
 ##########################################################
 # SAP HANA configuration

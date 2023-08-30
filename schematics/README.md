@@ -1,7 +1,7 @@
 # Automation solution for SAP HANA 2.0 DB deployment using IBM Schematics
 
 ## Description
-This automation solution is designed for the deployment of **SAP HANA 2.0 DB** using IBM Cloud Schematics. SAP HANA solution will be deployed on top of one of the following Operating Systems: **SUSE Linux Enterprise Server 15 SP 3 for SAP**, **Red Hat Enterprise Linux 8.4 for SAP**, **Red Hat Enterprise Linux 7.6 for SAP** in an existing IBM Cloud Gen2 VPC, using an existing bastion host with secure remote SSH access.
+This automation solution is designed for the deployment of **SAP HANA 2.0 DB** using IBM Cloud Schematics. SAP HANA solution will be deployed on top of one of the following Operating Systems: **SUSE Linux Enterprise Server 15 SP 3 for SAP**, **SUSE Linux Enterprise Server 15 SP 4 for SAP**, **Red Hat Enterprise Linux 8.4 for SAP**, **Red Hat Enterprise Linux 8.6 for SAP** in an existing IBM Cloud Gen2 VPC, using an existing bastion host with secure remote SSH access.
 
 The solution is based on Terraform remote-exec and Ansible playbooks executed by Schematics and it is implementing a 'reasonable' set of best practices for SAP VSI host configuration.
 
@@ -14,7 +14,7 @@ The solution is based on Terraform remote-exec and Ansible playbooks executed by
 SAP HANA installation media used for this deployment is the default one for **SAP HANA, platform edition 2.0 SPS05** available at SAP Support Portal under *INSTALLATION AND UPGRADE* area and it has to be provided as input data.
 
 ## VSI Configuration
-The VSI is deployed with with one of the following Operating Systems for DB server: Suse Linux Enterprise Server 15 SP 3 for SAP HANA (amd64), Red Hat Enterprise Linux 8.4 for SAP HANA (amd64) or Red Hat Enterprise Linux 7.6 for SAP HANA (amd64). The SSH keys are configured to allow root user access. The following storage volumes are creating during the provisioning:
+The VSI is deployed with with one of the following Operating Systems for DB server: Suse Linux Enterprise Server 15 SP 3 for SAP HANA (amd64), Suse Linux Enterprise Server 15 SP 4 for SAP HANA (amd64), Red Hat Enterprise Linux 8.4 for SAP HANA (amd64) or Red Hat Enterprise Linux 8.6 for SAP HANA (amd64). The SSH keys are configured to allow root user access. The following storage volumes are creating during the provisioning:
 
 HANA DB VSI Disks:
 - the disk sizes depend on the selected profile, according to [Intel Virtual Server certified profiles on VPC infrastructure for SAP HANA](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-intel-vs-vpc) - Last updated 2022-01-28
@@ -53,7 +53,7 @@ SUBNET | The name of an EXISTING Subnet. The list of Subnets is available [here]
 SECURITY_GROUP | The name of an EXISTING Security group. The list of Security Groups is available [here](https://cloud.ibm.com/vpc-ext/network/securityGroups).
 HOSTNAME | The Hostname for the HANA VSI. The hostname should be up to 13 characters as required by SAP. For more information on rules regarding hostnames for SAP systems, check [SAP Note 611361: Hostnames of SAP ABAP Platform servers](https://launchpad.support.sap.com/#/notes/%20611361)
 PROFILE | The instance profile used for the HANA VSI. The list of certified profiles for HANA VSIs is available [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-intel-vs-vpc). <br> Details about all x86 instance profiles are available [here](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles). <br>  For more information about supported DB/OS and IBM Gen 2 Virtual Server Instances (VSI), check [SAP Note 2927211: SAP Applications on IBM Virtual Private Cloud](https://launchpad.support.sap.com/#/notes/2927211) <br /> Default value: "mx2-16x128"
-IMAGE | The OS image used for HANA VSI. A list of images is available [here](https://cloud.ibm.com/docs/vpc?topic=vpc-about-images) <br> Default value: ibm-redhat-8-4-amd64-sap-hana-2
+IMAGE | The OS image used for HANA VSI. A list of images is available [here](https://cloud.ibm.com/docs/vpc?topic=vpc-about-images) <br> Default value: ibm-redhat-8-6-amd64-sap-hana-2
 
 **SAP input parameters:**
 
@@ -80,12 +80,10 @@ sap_main_password | Common password for all users that are created during the in
 - OS **image** for **DB VSI.** Supported OS images for DB VSIs: ibm-sles-15-3-amd64-sap-hana-2, ibm-redhat-8-4-amd64-sap-hana-2, ibm-redhat-7-6-amd64-sap-hana-3.
   - The list of available VPC Operating Systems supported by SAP: SAP note '2927211 - SAP Applications on IBM Virtual Private Cloud (VPC) Infrastructure environment' https://launchpad.support.sap.com/#/notes/2927211; The list of all available OS images: https://cloud.ibm.com/docs/vpc?topic=vpc-about-images
   - Make sure the OS image is appropriate for the selected [VSI profil](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-intel-vs-vpc#hana-iaas-intel-vs-vpc-) and SAP HANA Processing Type
-  - Default value:  IMAGE = "ibm-redhat-8-4-amd64-sap-hana-2"
+  - Default value:  IMAGE = "ibm-redhat-8-6-amd64-sap-hana-2"
 - SAP **HANA Installation path kit**
-  - Supported SAP HANA versions on Red Hat 8.4 and Suse 15.3: HANA 2.0 SP 5 Rev 57, kit file: 51055299.ZIP
-  - Supported SAP HANA versions on Red Hat 7.6: HANA 2.0 SP 5 Rev 52, kit file: 51054623.ZIP
-  - Example for Red Hat 7: kit_saphana_file = "/storage/HANADB/51054623.ZIP"
-  - Example for Red Hat 8 or Suse 15: kit_saphana_file = "/storage/HANADB/51055299.ZIP"
+  - Supported SAP HANA versions on RHEL8 and SLES15: HANA 2.0 SP 5 Rev 57, kit file: 51055299.ZIP
+  - Example for RHEL8 or SLES15: kit_saphana_file = "/storage/HANADB/51055299.ZIP"
   - Default value:  kit_saphana_file = "/storage/HANADB/51055299.ZIP"
 
 ## VPC Configuration
@@ -141,6 +139,9 @@ The Security Rules inherited from BASTION deployment are the following:
 
 The output of the Schematics Apply Plan will list the public/private IP addresses
 of the VSI host, the hostname and the VPC.  
+
+The Terraform version used for deployment should be >= 1.3.6. 
+Note: The deployment was tested with Terraform 1.3.6
 
 ### Related links:
 
