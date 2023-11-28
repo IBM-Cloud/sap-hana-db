@@ -13,3 +13,9 @@ output "VPC" {
 output "STORAGE_LAYOUT" {
   value = module.vsi.STORAGE-LAYOUT
 }
+
+output "ATR_INSTANCE_NAME" {
+  description = "Activity Tracker instance name."
+  value       = var.ATR_NAME
+}
+

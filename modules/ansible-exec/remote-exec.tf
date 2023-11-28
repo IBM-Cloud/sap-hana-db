@@ -47,7 +47,7 @@ resource "null_resource" "ansible-exec" {
     }
 
     provisioner "local-exec" {
-          command = "ssh -o 'StrictHostKeyChecking no' -i ansible/id_rsa root@${var.BASTION_FLOATING_IP} 'nohup ansible-playbook --private-key /tmp/ansible.${local.SAP_DEPLOYMENT}-${var.IP}/id_rsa -i ${var.IP}, /tmp/ansible.${local.SAP_DEPLOYMENT}-${var.IP}/${var.PLAYBOOK} > /tmp/ansible.${local.SAP_DEPLOYMENT}-${var.IP}/ansible.${var.IP}.log 2>&1 &'"
+          command = "ssh -o 'StrictHostKeyChecking no' -i ansible/id_rsa root@${var.BASTION_FLOATING_IP} 'nohup ansible-playbook --private-key /tmp/ansible.${local.SAP_DEPLOYMENT}-${var.IP}/id_rsa -i ${var.IP}, /tmp/ansible.${local.SAP_DEPLOYMENT}-${var.IP}/${var.PLAYBOOK} > /tmp/ansible.${local.SAP_DEPLOYMENT}-${var.IP}.log 2>&1 &'"
     }
 
 }
