@@ -26,6 +26,6 @@ variable "ID_RSA_FILE_PATH" {
 locals {
 
 SAP_DEPLOYMENT = "saphana"
-SCHEMATICS_TIMEOUT = 45         #(Max 55 Minutes). It is multiplied by 5 on Schematics deployments and it is relying on the ansible-logs number.
+SCHEMATICS_TIMEOUT = 45 #(Max 55 Minutes). It is multiplied by 5 on Schematics deployments and it is relying on the ansible-logs number.
 
 }

@@ -29,6 +29,7 @@ saphana_required_packages:
   - xfsprogs
   - xorg-x11-xauth
   - compat-sap-c++-9
+  - compat-sap-c++-11
   - libatomic
   - chrony
   - lvm2
@@ -42,6 +43,8 @@ saphana_required_configurations:
   - "hostname"
   - "umask_RHEL"
   - "kernel_RedHat8"
+  - "c_states"
+  - "tsx"
   - "reboot"
   - "filesystems"
   - "tmpfs"

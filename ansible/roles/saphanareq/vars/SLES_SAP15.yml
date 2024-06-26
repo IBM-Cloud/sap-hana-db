@@ -3,6 +3,9 @@ saphana_required_packages:
   - lvm2
   - uuidd
   - nfs-utils
+  - libatomic1
+  - libgcc_s1
+  - libstdc++6
 
 saphana_required_configurations:
   - "repository_SLES"

@@ -1,11 +1,6 @@
-variable "IP" {
+variable "PLAYBOOK" {
     type = string
-    description = "IP used to execute ansible"
-}
-
-variable "ID_RSA_FILE_PATH" {
-    nullable = false
-    description = "Input your id_rsa private key file path in OpenSSH format."
+    description = "Path to the Ansible Playbook"
 }
 
 variable "HANA_MAIN_PASSWORD" {
@@ -13,9 +8,12 @@ variable "HANA_MAIN_PASSWORD" {
     description = "HANA_MAIN_PASSWORD"
 }
 
-
-variable "PLAYBOOK" {
-    type = string
-    description = "SAP Ansible Playbook"
+variable "ID_RSA_FILE_PATH" {
+    nullable = false
+    description = "id_rsa private key file path in OpenSSH format."
 }
 
+variable "IP" {
+    type = string
+    description = "IP used by ansible"
+}
