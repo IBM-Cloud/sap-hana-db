@@ -26,7 +26,3 @@ output "STORAGE_LAYOUT" {
   value = lower(trimspace(var.HANA_SERVER_TYPE)) == "virtual" ? module.db-vsi[0].STORAGE-LAYOUT : module.db-bms[0].STORAGE-LAYOUT
 }
 
-output "ATR_INSTANCE_NAME" {
-  description = "Activity Tracker instance name."
-  value       = var.ATR_NAME
-}

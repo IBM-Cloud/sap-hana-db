@@ -64,14 +64,6 @@ DB_IMAGE = "ibm-redhat-8-6-amd64-sap-hana-5"
 # Example: DB_IMAGE = "ibm-sles-15-4-amd64-sap-hana-6"
 
 ##########################################################
-# Activity Tracker variables
-##########################################################
-
-ATR_NAME = ""
-# The name of an existent Activity Tracker instance, in the same region chosen for SAP system deployment.
-# Example: ATR_NAME="Activity-Tracker-SAP-eu-de"
-
-##########################################################
 # SAP HANA configuration
 ##########################################################
 

@@ -11,9 +11,6 @@ The solution is based on Terraform remote-exec and Ansible playbooks executed by
 - Ansible scripts to configure SAP HANA 2.0 node.
 Please note that Ansible is started by Terraform and must be available on the same host.
 
-In order to track the events specific to the resources deployed by this solution, the [IBM Cloud Activity Tracker](https://cloud.ibm.com/docs/activity-tracker?topic=activity-tracker-getting-started#gs_ov) to be used should be specified.   
-IBM Cloud Activity Tracker service collects and stores audit records for API calls made to resources that run in the IBM Cloud. It can be used to monitor the activity of your IBM Cloud account, investigate abnormal activity and critical actions, and comply with regulatory audit requirements. In addition, you can be alerted on actions as they happen. 
-
 ## Contents:
 
 - [1.1 Installation media](#11-installation-media)
@@ -99,12 +96,6 @@ HANA_SERVER_TYPE | The type of SAP HANA Server. Allowed vales: "virtual" or "bar
 DB_HOSTNAME | The Hostname for the HANA VSI or Bare Metal Server. The hostname should be up to 13 characters as required by SAP.  For more information on rules regarding hostnames for SAP systems, check [SAP Note 611361: Hostnames of SAP ABAP Platform servers](https://launchpad.support.sap.com/#/notes/%20611361)
 DB_PROFILE | The instance profile used for the SAP HANA Server. The list of the certified profiles for SAP HANA on a VSI is available [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-intel-vs-vpc). The list of the certified profiles for SAP HANA on a Bare Metal Server is available [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-intel-bm-vpc). <br> Details about all x86 instance profiles are available [here](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles). <br>  For more information about supported DB/OS and IBM Gen 2 Servers, check [SAP Note 2927211: SAP Applications on IBM Virtual Private Cloud](https://launchpad.support.sap.com/#/notes/2927211) <br />
 DB_IMAGE | The OS image used for HANA VSI or Bare Metal Server (See Obs*). A list of images is available [here](https://cloud.ibm.com/docs/vpc?topic=vpc-about-images).<br /> Default value: ibm-redhat-8-6-amd64-sap-hana-5
-
-**Activity Tracker input parameters**
-
-Parameter | Description
-----------|------------
-ATR_NAME | ATR_NAME The name of an existent Activity Tracker instance, in the same region chosen for SAP system deployment. The list of available Activity Tracker is available here Example: ATR_NAME="Activity-Tracker-SAP-eu-de".   
 
 **SAP input parameters:**
 
@@ -214,7 +205,7 @@ BASTION_FLOATING_IP | The FLOATING IP from the Bastion Server. It can be found a
     provisioning, modification, or deletion process.
 
 The output of the Schematics Apply Plan will list the public/private IP addresses
-of the VSI or Bare Metal host, the hostname, the subnet, the security group, the activity tracker name, the VPC and SAP HANA SID.
+of the VSI or Bare Metal host, the hostname, the subnet, the security group, the VPC and SAP HANA SID.
 
 ## 2.3 Executing the deployment of **SAP HANA** in CLI
 
@@ -224,7 +215,7 @@ You can create an API Key [here](https://cloud.ibm.com/iam/apikeys).
  
 ### Input parameter file
 The solution is configured and customized based on the input values for the variables in the file `input.auto.tfvars`
-Provide your own values for VPC, Subnet, Security group, Resource Group, Hostname, Profile, Image, SSH Keys, Activity Tracker, Server Type like in the sample below:
+Provide your own values for VPC, Subnet, Security group, Resource Group, Hostname, Profile, Image, SSH Keys, Server Type like in the sample below:
 
 **VSI or Bare Metal input parameters**
 
@@ -266,14 +257,6 @@ ID_RSA_FILE_PATH = "ansible/id_rsa"
 # This private key is used only during the provisioning and it is recommended to be changed after the SAP deployment.
 # It must contain the relative or absoute path from your Bastion.
 # Examples: "ansible/id_rsa_hana_single_vsi" , "~/.ssh/id_rsa_hana_single_vsi" , "/root/.ssh/id_rsa".
-
-##########################################################
-# Activity Tracker variables
-##########################################################
-
-ATR_NAME = "Activity-Tracker-SAP-eu-de"
-# The name of an existent Activity Tracker instance, in the same region chosen for SAP system deployment.
-# Example: ATR_NAME="Activity-Tracker-SAP-eu-de"
 
 ##########################################################
 # SAP HANA Server variables

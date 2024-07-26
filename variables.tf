@@ -121,16 +121,6 @@ variable "DB_IMAGE" {
  }
 }
 
-##############################################################
-# The variables used in Activity Tracker service.
-##############################################################
-
-variable "ATR_NAME" {
-  type        = string
-  description = "The name of the EXISTING Activity Tracker instance, in the same region as SAP HANA Server. The list of available Activity Tracker is available here: https://cloud.ibm.com/observe/activitytracker"
-  default = ""
-}
-
 data "ibm_is_instance" "db-vsi" {
 	count             = var.HANA_SERVER_TYPE == "virtual" ? 1 : 0
 	depends_on = [module.db-vsi]
@@ -141,28 +131,6 @@ data "ibm_is_bare_metal_server" "db-bms" {
 	count             = var.HANA_SERVER_TYPE != "virtual" ? 1 : 0
 	depends_on = [module.db-bms]
 	name        = var.DB_HOSTNAME
-}
-
-# ATR variables and conditions
-locals {
-        ATR_ENABLE = true
-}
-
-resource "null_resource" "check_atr_name" {
-  count             = local.ATR_ENABLE == true ? 1 : 0
-  lifecycle {
-    precondition {
-      condition     = var.ATR_NAME != "" && var.ATR_NAME != null
-      error_message = "The name of an EXISTENT Activity Tracker in the same region must be specified."
-    }
-  }
-}
-
-data "ibm_resource_instance" "activity_tracker" {
-  count             = local.ATR_ENABLE == true ? 1 : 0
-  name              = var.ATR_NAME
-  location          = var.REGION
-  service           = "logdnaat"
 }
 
 # HANA SERVER PROFILE
